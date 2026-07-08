@@ -12,4 +12,8 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Outside the Lovable sandbox, nitro is only enabled when a preset is set explicitly.
+  // Target Netlify so `npm run build` emits a Netlify Function for SSR instead of a
+  // client-only bundle.
+  nitro: { preset: "netlify" },
 });
