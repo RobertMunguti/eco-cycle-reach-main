@@ -6,6 +6,8 @@ import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { EventsCarousel } from "@/components/site/EventsCarousel";
 import heroImg from "@/assets/hero-recycling.jpg";
 import hero2 from "@/assets/hero-2.jpg";
+import iso9001Logo from "@/assets/iso9001.jpg";
+import iso14001Logo from "@/assets/iso14001.png";
 import hero3 from "@/assets/hero-3.jpg";
 import hero4 from "@/assets/hero-4.jpg";
 import hero5 from "@/assets/hero-5.jpg";
@@ -18,7 +20,7 @@ import Oracle from "@/assets/oracle.png";
 import Rotary from "@/assets/rotary.svg";
 import KKCF from "@/assets/kkcf.png";
 import Giz from "@/assets/giz.png";
-import Liquid from "@/assets/liquid.jpeg";
+// import Liquid from "@/assets/liquid.jpeg";
 import Umicore from "@/assets/umicore.png";
 import Carrefour from "@/assets/carrefour.png";
 import IBM from "@/assets/ibm.png";
@@ -38,6 +40,35 @@ import Foreign from "@/assets/foreign-common-wealth.png";
 import British from "@/assets/british-council.png";
 import Yunus from "@/assets/yunus.svg";
 import Ikea from "@/assets/ikea.png";
+import Absa from "@/assets/absa.png";
+import Agas from "@/assets/agas.png";
+import American from "@/assets/american.jpg";
+import Backmarket from "@/assets/backmarket.png";
+import BD from "@/assets/bd.png";
+import Canadian from "@/assets/canadian.png";
+import CIH from "@/assets/CIH_LOGO.jpeg";
+import Doen from "@/assets/doen.png";
+import DTB from "@/assets/dtb.png";
+import European from "@/assets/european.png";
+import German from "@/assets/german.jpg";
+import Government from "@/assets/government.png";
+import GRPC from "@/assets/grpc.png";
+import Haco from "@/assets/haco.jpg";
+import HP from "@/assets/hp.png";
+import I_and_M from "@/assets/i_and_m.png";
+import Icer from "@/assets/icer.png";
+import ICT from "@/assets/ict.jpg";
+import ISK from "@/assets/isk.jpg";
+import Kilimani from "@/assets/kilimani.jpg";
+import MSF from "@/assets/msf.png";
+import Naivas from "@/assets/naivas.png";
+import Nice from "@/assets/nice.jpg";
+import Premier from "@/assets/premier.jpg";
+import Prime from "@/assets/prime.png";
+import Revivo from "@/assets/REV.jpg";
+import Roche from "@/assets/roche.png";
+import Rome from "@/assets/rome.png";
+import Takataka from "@/assets/takataka.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -76,7 +107,8 @@ const partners = [
   { name: "Rotary", logoUrl: Rotary },
   { name: "KKCF", logoUrl: KKCF },
   { name: "Giz", logoUrl: Giz },
-  { name: "Liquid", logoUrl: Liquid },
+  { name: "Revivo", logoUrl: Revivo },
+  { name: "CIH", logoUrl: CIH },
   { name: "Umicore", logoUrl: Umicore },
   { name: "Carrefour", logoUrl: Carrefour },
   { name: "IBM", logoUrl: IBM },
@@ -96,13 +128,41 @@ const partners = [
   { name: "British Council", logoUrl: British },
   { name: "Yunus", logoUrl: Yunus },
   { name: "Ikea", logoUrl: Ikea },
+  { name: "Absa", logoUrl: Absa },
+  { name: "Agas", logoUrl: Agas },
+  { name: "American", logoUrl: American },
+  { name: "Backmarket", logoUrl: Backmarket },
+  { name: "BD", logoUrl: BD },
+  { name: "Canadian", logoUrl: Canadian },
+  { name: "Doen", logoUrl: Doen },
+  { name: "DTB", logoUrl: DTB },
+  { name: "Elemental", logoUrl: Elemental },
+  { name: "European", logoUrl: European },
+  { name: "German", logoUrl: German },
+  { name: "Government", logoUrl: Government },
+  { name: "GRPC", logoUrl: GRPC },
+  { name: "Haco", logoUrl: Haco },
+  { name: "HP", logoUrl: HP },
+  { name: "I and M", logoUrl: I_and_M },
+  { name: "Icer", logoUrl: Icer },
+  { name: "ICT", logoUrl: ICT },
+  { name: "ISK", logoUrl: ISK },
+  { name: "Kilimani", logoUrl: Kilimani },
+  { name: "MSF", logoUrl: MSF },
+  { name: "Naivas", logoUrl: Naivas },
+  { name: "Nice", logoUrl: Nice },
+  { name: "Premier", logoUrl: Premier },
+  { name: "Prime", logoUrl: Prime },
+  { name: "Roche", logoUrl: Roche },
+  { name: "Rome", logoUrl: Rome },
+  { name: "Takataka", logoUrl: Takataka },
 ];
 
 const impact = [
   { icon: Leaf, label: "CO₂ Prevented", value: 14000, suffix: " t" },
   { icon: TreePine, label: "Trees Saved", value: 20000, suffix: "+" },
   { icon: Cpu, label: "Devices Refurbished", value: 8400, suffix: "" },
-  { icon: Package, label: "Materials Recovered", value: 10.6, suffix: " $" },
+  { icon: Package, label: "Materials Recovered", value: 10600000, suffix: " $" },
   { icon: Factory, label: "Landfill Diverted", value: 10000, suffix: " t" },
 ];
 
@@ -143,14 +203,25 @@ function Home() {
                 Request Quote
               </Link>
             </div>
-            <div className="mt-12 flex flex-wrap items-center gap-4">
-             <span className="px-5 py-2 text-base md:text-lg font-bold text-white bg-white/15 rounded-full border-2 border-white/25 backdrop-blur-md shadow-md tracking-wide">
-               ISO 9001:2015
-              </span>
-              <span className="px-5 py-2 text-base md:text-lg font-bold text-white bg-white/15 rounded-full border-2 border-white/25 backdrop-blur-md shadow-md tracking-wide">
-                 ISO 14001:2015
-              </span>
-            </div>
+            <div className="mt-12 flex flex-wrap items-center gap-6">
+  {/* ISO 9001 Badge */}
+  <div className="flex h-32 w-32 items-center justify-center p-2 bg-white/15 rounded-3xl border-2 border-white/25 backdrop-blur-md shadow-md transition duration-300 hover:bg-white/25">
+    <img 
+      src={iso9001Logo} 
+      alt="ISO 9001:2015 Certified" 
+      className="max-h-full w-auto object-contain"
+    />
+  </div>
+
+  {/* ISO 14001 Badge */}
+  <div className="flex h-32 w-32 items-center justify-center p-2 bg-white/15 rounded-3xl border-2 border-white/25 backdrop-blur-md shadow-md transition duration-300 hover:bg-white/25">
+    <img 
+      src={iso14001Logo} 
+      alt="ISO 14001:2015 Certified" 
+      className="max-h-full w-auto object-contain"
+    />
+  </div>
+</div>
           </div>
           <div className="relative animate-fade-up h-full flex flex-col">
             <HeroCarousel
@@ -286,39 +357,49 @@ function Home() {
         </div>
       </section>
 
-      {/* Partners */}
-      <section className="bg-secondary/40 py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            {/* <p className="text-sm font-semibold uppercase tracking-widest text-primary">Industries We Serve</p> */}
-            <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Our Partners</h2>
-          </div>
-          {/* <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-8">
-            {industries.map((i) => (
-              <div key={i.label} className="group flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center transition hover:border-primary hover:shadow-soft">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-primary-foreground">
-                  <i.icon className="h-6 w-6" />
-                </span>
-                <p className="mt-3 text-sm font-semibold">{i.label}</p>
-              </div>
-            ))}
-          </div> */}
-          <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {partners.map((partner) => (
-        <div 
-          key={partner.name} 
-          className="group flex h-28 items-center justify-center rounded-2xl border border-border bg-card p-6 text-center transition duration-300 hover:border-primary hover:shadow-soft"
-        >
-          <img 
-            src={partner.logoUrl} 
-            alt={`${partner.name} logo`} 
-            className="max-h-full max-w-full object-contain filter grayscale transition duration-300 group-hover:grayscale-0"
-          />
-        </div>
-      ))}
+    {/* Partners */}
+<section className="bg-secondary/40 py-24 overflow-hidden">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl text-center mb-14">
+      <h2 className="text-3xl font-bold sm:text-4xl">Our Partners</h2>
     </div>
-        </div>
-      </section>
+
+    {/* Multi-row Carousel Container */}
+    <div className="flex flex-col gap-6 mask-gradient">
+      {[...Array(4)].map((_, rowIndex) => {
+        // Distribute the partners evenly across 4 different rows
+        const rowPartners = partners.filter((_, idx) => idx % 4 === rowIndex);
+        
+        // Alternate scroll directions for odd vs even rows
+        const isEven = rowIndex % 2 === 0;
+        const animationClass = isEven ? 'animate-marquee' : 'animate-marquee-reverse';
+
+        return (
+          <div 
+            key={rowIndex} 
+            className="relative flex w-full overflow-x-hidden"
+          >
+            {/* Seamless loop by duplicating the row's specific partners */}
+            <div className={`flex whitespace-nowrap gap-4 py-1 ${animationClass}`}>
+              {[...rowPartners, ...rowPartners, ...rowPartners].map((partner, index) => (
+                <div 
+                  key={`${partner.name}-${rowIndex}-${index}`} 
+                  className="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-border bg-card p-5 text-center transition duration-300 hover:border-primary hover:shadow-soft"
+                >
+                  <img 
+                    src={partner.logoUrl} 
+                    alt={`${partner.name} logo`} 
+                    className="max-h-full max-w-full object-contain" 
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
 
 
       {/* CTA */}
