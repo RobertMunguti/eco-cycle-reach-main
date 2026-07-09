@@ -24,7 +24,7 @@ function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
   // REPLACE THESE WITH YOUR ACTUAL ENTRY IDs FROM STEP 1
-  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1WqasH8_yhRCaQscop1_rhMsXrGZppk8TcxWJltuNSH8/formResponse";
+  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeoyLEjrMqylUUkkF3lUIe-Prc-rAevPOuB1vfgjg6_K1sYIw/formResponse";
   const ENTRY_IDS = {
     name: "entry.2005620554",
     email: "entry.1045781291",
