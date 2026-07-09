@@ -69,75 +69,84 @@ function ContactPage() {
           </div>
 
           <div className="lg:col-span-2">
-            {submitted ? (
-              <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-soft h-full flex flex-col justify-center items-center py-20">
-                <h3 className="text-xl font-bold text-primary mb-2">Thank You!</h3>
-                <p className="text-muted-foreground">Your message has been received. We will get back to you shortly.</p>
-              </div>
-            ) : (
-              /* We target the hidden iframe below so the page doesn't refresh or redirect */
-              <form
-                action={GOOGLE_FORM_ACTION_URL}
-                method="POST"
-                target="hidden_iframe"
-                onSubmit={() => setSubmitted(true)}
-                className="rounded-2xl border border-border bg-card p-8 shadow-soft"
-              >
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {[
-                    { label: "Name", type: "text", entryId: ENTRY_IDS.name },
-                    { label: "Email", type: "email", entryId: ENTRY_IDS.email },
-                    { label: "Phone", type: "tel", entryId: ENTRY_IDS.phone },
-                    { label: "Organization", type: "text", entryId: ENTRY_IDS.organization },
-                  ].map((field) => (
-                    <div key={field.label}>
-                      <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                        {field.label}
-                      </label>
-                      <input
-                        required
-                        type={field.type}
-                        name={field.entryId}
-                        className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Subject</label>
-                  <input
-                    key={subject ?? "empty"}
-                    defaultValue={subject ?? ""}
-                    name={ENTRY_IDS.subject}
-                    className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-                  />
-                </div>
-                <div className="mt-5">
-                  <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Message</label>
-                  <textarea
-                    rows={5}
-                    required
-                    name={ENTRY_IDS.message}
-                    className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="mt-6 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
-                >
-                  Send message
-                </button>
-              </form>
-            )}
-
-            {/* Hidden iframe that intercepts the Google response layout redirection */}
-            <iframe
-              name="hidden_iframe"
-              id="hidden_iframe"
-              style={{ display: "none" }}
-              title="hidden submission window"
+  {submitted ? (
+    <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-soft h-full flex flex-col justify-center items-center py-20">
+      <h3 className="text-xl font-bold text-primary mb-2">Thank You!</h3>
+      <p className="text-muted-foreground">Your message has been received. We will get back to you shortly.</p>
+    </div>
+  ) : (
+    <form
+      action={GOOGLE_FORM_ACTION_URL}
+      method="POST"
+      target="hidden_iframe"
+      onSubmit={() => setSubmitted(true)}
+      className="rounded-2xl border border-border bg-card p-8 shadow-soft"
+    >
+      <div className="grid gap-5 sm:grid-cols-2">
+        {[
+          { label: "Name", type: "text", entryId: ENTRY_IDS.name },
+          { label: "Email", type: "email", entryId: ENTRY_IDS.email },
+          { label: "Phone", type: "tel", entryId: ENTRY_IDS.phone },
+          { label: "Organization", type: "text", entryId: ENTRY_IDS.organization },
+        ].map((field) => (
+          <div key={field.entryId}> {/* Using entryId as key ensures unique DOM identification */}
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {field.label}
+            </label>
+            <input
+              required
+              type={field.type}
+              id={field.entryId}
+              name={field.entryId}
+              className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
             />
           </div>
+        ))}
+      </div>
+      
+      <div className="mt-5">
+        <label htmlFor={ENTRY_IDS.subject} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Subject
+        </label>
+        <input
+          id={ENTRY_IDS.subject}
+          name={ENTRY_IDS.subject}
+          key={subject ?? "empty"}
+          defaultValue={subject ?? ""}
+          className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
+        />
+      </div>
+      
+      <div className="mt-5">
+        <label htmlFor={ENTRY_IDS.message} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Message
+        </label>
+        <textarea
+          id={ENTRY_IDS.message}
+          name={ENTRY_IDS.message}
+          rows={5}
+          required
+          className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
+        />
+      </div>
+      
+      <button
+        type="submit"
+        className="mt-6 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
+      >
+        Send message
+      </button>
+    </form>
+  )}
+
+  {/* Hidden iframe that intercepts the Google response layout redirection */}
+  <iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style={{ display: "none" }}
+    title="hidden submission window"
+  />
+</div>
         </div>
 
         <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
