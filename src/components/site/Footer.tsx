@@ -71,13 +71,13 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-white">Contact</h4>
             <ul className="mt-4 space-y-3 text-sm">
             <li className="flex gap-2"><Phone className="h-4 w-4 shrink-0 mt-0.5 text-primary"/>+254 701 819 559</li>
-              <li className="flex gap-2"><Mail className="h-4 w-4 shrink-0 mt-0.5 text-primary"/>info@weeecenter.com</li>
+              <li className="flex gap-2"><Mail className="h-4 w-4 shrink-0 mt-0.5 text-primary"/>info@weeecentre.com</li>
               <li className="flex gap-2"><MapPin className="h-4 w-4 shrink-0 mt-0.5 text-primary"/>Mihango', Embakasi, Off the Eastern By-pass</li>
             </ul>
           </div>
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} WEE CENTER. Managing e-Waste for a Safe Environment.</p>
+          <p>© {new Date().getFullYear()} WEEE CENTER. Managing e-Waste for a Safe Environment.</p>
           <p>· ISO 14001:2015 · ISO 9001:2015</p>
         </div>
       </div>

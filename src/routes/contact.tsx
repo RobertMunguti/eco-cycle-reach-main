@@ -29,7 +29,7 @@ function ContactPage() {
           <div className="space-y-4 lg:col-span-1">
             {[
               { icon: Phone, title: "Phone", val: "+254 701 819 559" },
-              { icon: Mail, title: "Email", val: "info@weecenter.com" },
+              { icon: Mail, title: "Email", val: "info@weeecentre.com" },
               { icon: MapPin, title: "Office", val: "Mihango', Embakasi, Off the Eastern By-pass" },
               { icon: Clock, title: "Hours", val: "Mon–Fri · 8:00–18:00" },
             ].map((c) => (
