@@ -89,18 +89,22 @@ function ContactPage() {
           { label: "Phone", type: "tel", entryId: ENTRY_IDS.phone },
           { label: "Organization", type: "text", entryId: ENTRY_IDS.organization },
         ].map((field) => (
-          <div key={field.entryId}> {/* Using entryId as key ensures unique DOM identification */}
-            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {field.label}
-            </label>
-            <input
-              required
-              type={field.type}
-              id={field.entryId}
-              name={field.entryId}
-              className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-            />
-          </div>
+          <div key={field.entryId}>
+    {/* Added htmlFor here to link with the input id */}
+    <label 
+      htmlFor={field.entryId} 
+      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+    >
+      {field.label}
+    </label>
+    <input
+      required
+      type={field.type}
+      id={field.entryId} /* Linked to the label's htmlFor */
+      name={field.entryId}
+      className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
+    />
+  </div>
         ))}
       </div>
       
