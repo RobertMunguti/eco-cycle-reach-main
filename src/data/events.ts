@@ -6,6 +6,13 @@ import conference6 from "@/assets/conference_6_1.jpeg";
 import conference5 from "@/assets/5th-Africa-International-E-Waste-Conference.jpeg";
 import conference4 from "@/assets/4th-CONFERENCE-2024.png";
 import conference3 from "@/assets/3rd-CONFERENCE-2024.jpg";
+import Kilycycle from "@/assets/Kilicycle.jpeg";
+import Church from "@/assets/Church.jpg";
+import Corporate from "@/assets/Corporatedrive.jpg";
+import Estate from "@/assets/Edenville.jpeg";
+import International from "@/assets/International.jpg";
+import Rotary from "@/assets/Rotary.jpeg";
+import Schooldrive from "@/assets/Schooldrive.jpg";
 
 export type EventItem = {
   slug: string;
@@ -45,6 +52,23 @@ export const events: EventItem[] = [
     ],
   },
   {
+    slug: "5th-edition-of-the-africa-international-e-waste-conference",
+    title: "The 5th Edition of the Africa International E-Waste Conference",
+    type: "Conference",
+    date: "Oct 16 - 17 2025",
+    time: "10:00 AM – 6:00 PM",
+    location: "PrideInn Paradise, Mombasa, Kenya",
+    audience: "CISOs, IT & Compliance Leaders",
+    description:
+      "The 5th International E-Waste Conference, taking place on October 16th and 17th, will focus on the theme Adapting to Global E-Waste Trends: Challenges and Opportunities. This conference aims to address the growing global e-waste crisis, particularly in regions like Africa, where the need for sustainable e-waste management solutions is becoming urgent. As e-waste generation escalates worldwide, Africa faces unique challenges, including the rise of off-grid solar and battery waste linked to the continent's renewable energy growth, as well as the global shift towards stricter e-waste regulations through Basel Convention amendments. The conference will provide a platform for discussing these issues and exploring innovative solutions to mitigate the environmental and social impacts of e-waste.",
+    image: conference5,
+    highlights: [
+      "Global e-waste trends",
+      "The impact of technological advancements on recycling",
+      "Special focus will be given to the role of government, the private sector, and international collaborations in building scalable, sustainable e-waste solutions",
+    ],
+  },
+  {
     slug: "the-4th-africa-international-e-waste-conference",
     title: "The 4th Africa International E-Waste Conference",
     type: "Conference",
@@ -62,23 +86,6 @@ export const events: EventItem[] = [
       "Promote Extended Producer Responsibility (EPR)",
       "Enhance Intersectoral Collaboration",
       "Unlock Financing for E-Waste Management",
-    ],
-  },
-  {
-    slug: "5th-edition-of-the-africa-international-e-waste-conference",
-    title: "The 5th Edition of the Africa International E-Waste Conference",
-    type: "Conference",
-    date: "Oct 16 - 17 2025",
-    time: "10:00 AM – 6:00 PM",
-    location: "PrideInn Paradise, Mombasa, Kenya",
-    audience: "CISOs, IT & Compliance Leaders",
-    description:
-      "The 5th International E-Waste Conference, taking place on October 16th and 17th, will focus on the theme Adapting to Global E-Waste Trends: Challenges and Opportunities. This conference aims to address the growing global e-waste crisis, particularly in regions like Africa, where the need for sustainable e-waste management solutions is becoming urgent. As e-waste generation escalates worldwide, Africa faces unique challenges, including the rise of off-grid solar and battery waste linked to the continent's renewable energy growth, as well as the global shift towards stricter e-waste regulations through Basel Convention amendments. The conference will provide a platform for discussing these issues and exploring innovative solutions to mitigate the environmental and social impacts of e-waste.",
-    image: conference5,
-    highlights: [
-      "Global e-waste trends",
-      "The impact of technological advancements on recycling",
-      "Special focus will be given to the role of government, the private sector, and international collaborations in building scalable, sustainable e-waste solutions",
     ],
   },
   {
@@ -124,12 +131,12 @@ export const events: EventItem[] = [
     location: "Hybrid",
     audience: "Stakeholders",
     description:
-      "Join us for the 3rd Africa International E-waste Conference where industry experts and thought leaders will convene in the fourth panel to deliberate on The Role of Digital Technology and Innovation in Accelerating the Transition to a Circular Economy. Get insights from prominent panelists",
-    image: conference3,
+      "We work with different Rotary clubs during World Environmental Day to raise awareness about the importance of responsible e-waste disposal and recycling. The event includes activities such as:",
+    image: Rotary,
     highlights: [
-      "Curriculum-ready educator toolkit",
-      "Device donation matching program",
-      "Student ambassador certifications",
+      "Greenstep Run",
+      "E-Waste Training",
+      "E-Waste Collection Drive",
     ],
   },
   {
@@ -141,12 +148,12 @@ export const events: EventItem[] = [
     location: "Hybrid",
     audience: "K-12 & Universities",
     description:
-      "We were celebrating World Environmental Day",
-    image: conference3,
+      "We were celebrating World Environmental Day. The students and staff took part in training of E-waste managament and destruction of IT Equipment to have a feel on how E-waste dismantiling is done. Some of the activities they took part in are:",
+    image: International,
     highlights: [
-      "Curriculum-ready educator toolkit",
-      "Device donation matching program",
-      "Student ambassador certifications",
+      "Dismantling of obsolete laptops and desktops",
+      "Segregation of e-waste into different categories",
+      "Safe disposal of e-waste in an environmentally friendly manner",
     ],
   },
   {
@@ -159,7 +166,7 @@ export const events: EventItem[] = [
     audience: "All",
     description:
       "Every 3rd Saturday of the month, we organize a Kilicycle event where we collect e-waste from the community. This initiative aims to raise awareness about the importance of responsible e-waste disposal and recycling. Here’s a quick refresher on what we collect:",
-    image: conference3,
+    image: Kilycycle,
     highlights: [
       "Paper",
       "E-Waste",
@@ -179,11 +186,11 @@ export const events: EventItem[] = [
     audience: "All",
     description:
       "We conduct church drives to collect e-waste from congregations. This initiative aims to raise awareness about the importance of responsible e-waste disposal and recycling.",
-    image: conference3,
+    image: Church,
     highlights: [
-      "Curriculum-ready educator toolkit",
-      "Device donation matching program",
-      "Student ambassador certifications",
+      "Collection of E-waste",
+      "Training on E-waste management",
+      "Safe disposal of E-waste",
     ],
   },
   {
@@ -196,11 +203,10 @@ export const events: EventItem[] = [
     audience: "Corporate Organizations",
     description:
       "We conduct corporate drives to collect e-waste from businesses. This initiative aims to raise awareness about the importance of responsible e-waste disposal and recycling.",
-    image: conference3,
+    image: Corporate,
     highlights: [
-      "Curriculum-ready educator toolkit",
-      "Device donation matching program",
-      "Student ambassador certifications",
+      "E-waste collection and recycling",
+      "E-waste management training for employees",
     ],
   },
   {
@@ -213,7 +219,7 @@ export const events: EventItem[] = [
     audience: "Schools",
     description:
       "We put up bins in schools to collect e-waste from students and staff. This initiative aims to raise awareness about the importance of responsible e-waste disposal and recycling.",
-    image: conference3,
+    image: Schooldrive,
     highlights: [
       "Curriculum-ready educator toolkit",
       "Device donation matching program",
@@ -229,12 +235,12 @@ export const events: EventItem[] = [
     location: "On Site",
     audience: "Residents",
     description:
-      "We set up temporary collection points ",
-    image: conference3,
+      "We set up temporary collection points to collect e-waste from residents. This initiative aims to raise awareness about the importance of responsible e-waste disposal and recycling.",
+    image: Estate,
     highlights: [
-      "Curriculum-ready educator toolkit",
-      "Device donation matching program",
-      "Student ambassador certifications",
+      "E-waste collection and recycling",
+      "E-Waste management training for residents",
+      "Put up Permanent E-waste collection points in estates",
     ],
   },
 ];

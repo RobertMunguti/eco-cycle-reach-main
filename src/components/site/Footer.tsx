@@ -77,7 +77,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} WEEE CENTER. Managing e-Waste for a Safe Environment.</p>
+          <p>© {new Date().getFullYear()} WEEE CENTRE. Managing e-Waste for a Safe Environment.</p>
           <p>· ISO 14001:2015 · ISO 9001:2015</p>
         </div>
       </div>

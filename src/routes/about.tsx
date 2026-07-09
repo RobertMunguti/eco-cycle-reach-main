@@ -11,7 +11,7 @@ export const Route = createFileRoute("/about")({
     meta: [
       { title: "About Us" },
       { name: "description", content: "Our story, mission, values, and commitment to responsible electronics recycling." },
-      { property: "og:title", content: "About WEE CENTER" },
+      { property: "og:title", content: "About WEEE CENTRE" },
       { property: "og:description", content: "Mission, vision, leadership, and sustainability commitment." },
     ],
   }),
@@ -35,7 +35,7 @@ const values = [
 function AboutPage() {
   return (
     <SiteLayout>
-      <PageHero eyebrow="About Us" title="Pioneering the circular electronics economy" subtitle="Founded in 2012, WEE CENTRE has grown into a trusted partner for organizations who refuse to send hardware to landfill." />
+      <PageHero eyebrow="About Us" title="Pioneering the circular electronics economy" subtitle="Founded in 2012, WEEE CENTRE has grown into a trusted partner for organizations who refuse to send hardware to landfill." />
 
       <section className="bg-background py-20">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8 items-start">
