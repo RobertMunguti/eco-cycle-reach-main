@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Loader2 } from "lucide-react";
 import { z } from "zod";
 
 const contactSearchSchema = z.object({
@@ -22,9 +22,11 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const { subject } = Route.useSearch();
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // REPLACE THESE WITH YOUR ACTUAL ENTRY IDs FROM STEP 1
-  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeoyLEjrMqylUUkkF3lUIe-Prc-rAevPOuB1vfgjg6_K1sYIw/formResponse";
+  // Your verified Entry IDs and Form ID Endpoint
+  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1WqasH8_yhRCaQscop1_rhMsXrGZppk8TcxWJltuNSH8/formResponse";
+  
   const ENTRY_IDS = {
     name: "entry.2005620554",
     email: "entry.1045781291",
@@ -32,6 +34,40 @@ function ContactPage() {
     organization: "entry.1166974658",
     subject: "entry.839337160",
     message: "entry.1016647380",
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    const googleFormData = new URLSearchParams();
+
+    // Map your DOM input values precisely to the Google field keys
+    googleFormData.append(ENTRY_IDS.name, formData.get("name") as string);
+    googleFormData.append(ENTRY_IDS.email, formData.get("email") as string);
+    googleFormData.append(ENTRY_IDS.phone, formData.get("phone") as string);
+    googleFormData.append(ENTRY_IDS.organization, formData.get("organization") as string);
+    googleFormData.append(ENTRY_IDS.subject, formData.get("subject") as string);
+    googleFormData.append(ENTRY_IDS.message, formData.get("message") as string);
+
+    try {
+      // mode: "no-cors" forces the browser to silently dispatch the payload safely 
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: googleFormData.toString(),
+      });
+      
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Submission failed: ", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -69,88 +105,72 @@ function ContactPage() {
           </div>
 
           <div className="lg:col-span-2">
-  {submitted ? (
-    <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-soft h-full flex flex-col justify-center items-center py-20">
-      <h3 className="text-xl font-bold text-primary mb-2">Thank You!</h3>
-      <p className="text-muted-foreground">Your message has been received. We will get back to you shortly.</p>
-    </div>
-  ) : (
-    <form
-      action={GOOGLE_FORM_ACTION_URL}
-      method="POST"
-      target="hidden_iframe"
-      onSubmit={() => setSubmitted(true)}
-      className="rounded-2xl border border-border bg-card p-8 shadow-soft"
-    >
-      <div className="grid gap-5 sm:grid-cols-2">
-        {[
-          { label: "Name", type: "text", entryId: ENTRY_IDS.name },
-          { label: "Email", type: "email", entryId: ENTRY_IDS.email },
-          { label: "Phone", type: "tel", entryId: ENTRY_IDS.phone },
-          { label: "Organization", type: "text", entryId: ENTRY_IDS.organization },
-        ].map((field) => (
-          <div key={field.entryId}>
-    {/* Added htmlFor here to link with the input id */}
-    <label 
-      htmlFor={field.entryId} 
-      className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
-    >
-      {field.label}
-    </label>
-    <input
-      required
-      type={field.type}
-      id={field.entryId} /* Linked to the label's htmlFor */
-      name={field.entryId}
-      className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-    />
-  </div>
-        ))}
-      </div>
-      
-      <div className="mt-5">
-        <label htmlFor={ENTRY_IDS.subject} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Subject
-        </label>
-        <input
-          id={ENTRY_IDS.subject}
-          name={ENTRY_IDS.subject}
-          key={subject ?? "empty"}
-          defaultValue={subject ?? ""}
-          className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-        />
-      </div>
-      
-      <div className="mt-5">
-        <label htmlFor={ENTRY_IDS.message} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Message
-        </label>
-        <textarea
-          id={ENTRY_IDS.message}
-          name={ENTRY_IDS.message}
-          rows={5}
-          required
-          className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none"
-        />
-      </div>
-      
-      <button
-        type="submit"
-        className="mt-6 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
-      >
-        Send message
-      </button>
-    </form>
-  )}
-
-  {/* Hidden iframe that intercepts the Google response layout redirection */}
-  <iframe
-    name="hidden_iframe"
-    id="hidden_iframe"
-    style={{ display: "none" }}
-    title="hidden submission window"
-  />
-</div>
+            {submitted ? (
+              <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-soft h-full flex flex-col justify-center items-center py-20">
+                <h3 className="text-xl font-bold text-primary mb-2">Thank You!</h3>
+                <p className="text-muted-foreground">Your message has been received. We will get back to you shortly.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleFormSubmit} className="rounded-2xl border border-border bg-card p-8 shadow-soft">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  {[
+                    { label: "Name", type: "text", name: "name" },
+                    { label: "Email", type: "email", name: "email" },
+                    { label: "Phone", type: "tel", name: "phone" },
+                    { label: "Organization", type: "text", name: "organization" },
+                  ].map((field) => (
+                    <div key={field.name}>
+                      <label htmlFor={field.name} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                        {field.label}
+                      </label>
+                      <input
+                        required
+                        type={field.type}
+                        id={field.name}
+                        name={field.name}
+                        disabled={isSubmitting}
+                        className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5">
+                  <label htmlFor="subject" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Subject
+                  </label>
+                  <input
+                    id="subject"
+                    name="subject"
+                    key={subject ?? "empty"}
+                    defaultValue={subject ?? ""}
+                    disabled={isSubmitting}
+                    className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60"
+                  />
+                </div>
+                <div className="mt-5">
+                  <label htmlFor="message" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    disabled={isSubmitting}
+                    className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60"
+                >
+                  {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {isSubmitting ? "Sending..." : "Send message"}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
 
         <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">

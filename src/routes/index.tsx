@@ -73,11 +73,16 @@ import Takataka from "@/assets/takataka.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "WEE CENTER — Managing e-Waste for a Safe Environment" },
+      { title: "Weee Centre — Managing e-Waste for a Safe Environment" },
       { name: "description", content: "We collect, recycle, refurbish, and responsibly dispose of electronic waste for businesses, institutions, and households." },
-      { property: "og:title", content: "WEE CENTER" },
+      { property: "og:title", content: "WEEE CENTER" },
       { property: "og:description", content: "Managing e-Waste for a Safe Environment." },
       { property: "og:image", content: heroImg },
+    ],
+    links: [
+      { rel: "icon", type: "image/png", href: "/favicon.png", sizes: "96x96" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   component: Home,
