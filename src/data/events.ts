@@ -34,7 +34,7 @@ export const events: EventItem[] = [
     type: "Conference",
     date: "Oct 15 – 16, 2026",
     time: "9:00 AM – 5:00 PM",
-    location: "Diani Reef Beach Resort, Kwale, Kenya",
+    location: "Diamonds Leisure Beach & Golf Resort",
     audience: "Enterprise & Government",
     description:
       "The 6th Africa International E-Waste Conference is Africa's premier platform for advancing sustainable electronics management and the circular economy. Bringing together policymakers, regulators, industry leaders, development partners, academia, innovators, investors, and youth, the conference will showcase practical solutions that transform e-waste into opportunities for green industrialization, investment, job creation, and climate action.",

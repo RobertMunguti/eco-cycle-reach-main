@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "EcoCycle Solutions — Responsible E-Waste Management" },
+      { title: "Weee Centre — Managing e-Waste for a Safe Environment" },
       { name: "description", content: "Secure e-waste collection, data destruction, IT asset disposal, and electronics recycling for businesses, institutions, and households." },
-      { name: "author", content: "EcoCycle Solutions" },
-      { property: "og:title", content: "EcoCycle Solutions — Responsible E-Waste Management" },
+      { name: "author", content: "Weee Centre" },
+      { property: "og:title", content: "Weee Centre — Managing e-Waste for a Safe Environment" },
       { property: "og:description", content: "Secure e-waste collection, data destruction, ITAD, and electronics recycling." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
