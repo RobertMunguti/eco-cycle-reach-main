@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
-import { Calendar, MapPin, CheckCircle2, ArrowLeft } from "lucide-react";
+import { Calendar, MapPin, CheckCircle2, ArrowLeft, Loader2 } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { events } from "@/data/events";
+import { sendFormEmail } from "@/lib/send-email";
 
 const searchSchema = z.object({
   event: z.string().optional(),
@@ -25,6 +26,47 @@ function EventRegistrationPage() {
   const selectedEvent = events.find((e) => e.slug === eventSlug);
   const [submitted, setSubmitted] = useState(false);
   const [chosen, setChosen] = useState<string>(selectedEvent?.slug ?? "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const eventTitle = events.find((ev) => ev.slug === chosen)?.title ?? chosen;
+
+    const fields: Record<string, string> = {
+      event: eventTitle,
+      name: (formData.get("name") as string) ?? "",
+      email: (formData.get("email") as string) ?? "",
+      phone: (formData.get("phone") as string) ?? "",
+      organization: (formData.get("org") as string) ?? "",
+      jobTitle: (formData.get("title") as string) ?? "",
+      country: (formData.get("country") as string) ?? "",
+      attendees: (formData.get("attendees") as string) ?? "",
+      attendeeType: (formData.get("attendeeType") as string) ?? "",
+      requirements: (formData.get("requirements") as string) ?? "",
+      notes: (formData.get("notes") as string) ?? "",
+    };
+
+    try {
+      await sendFormEmail({
+        data: {
+          formType: "event-registration",
+          subject: `New event registration: ${eventTitle}`,
+          fields,
+        },
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Registration failed: ", error);
+      setSubmitError("Something went wrong submitting your registration. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <SiteLayout>
@@ -69,7 +111,7 @@ function EventRegistrationPage() {
               </div>
             ) : (
               <form
-                onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                onSubmit={handleFormSubmit}
                 className="rounded-2xl border border-border bg-card p-8 shadow-soft"
               >
                 <div className="mb-5">
@@ -106,11 +148,11 @@ function EventRegistrationPage() {
                 <div className="mt-5 grid gap-5 sm:grid-cols-2">
                   <div>
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Number of Attendees</label>
-                    <input type="number" min={1} defaultValue={1} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
+                    <input type="number" name="attendees" min={1} defaultValue={1} disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60" />
                   </div>
                   <div>
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Attendee Type</label>
-                    <select className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none">
+                    <select name="attendeeType" disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60">
                       <option>In-person</option>
                       <option>Virtual</option>
                     </select>
@@ -119,21 +161,26 @@ function EventRegistrationPage() {
 
                 <div className="mt-5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Dietary / Accessibility Requirements</label>
-                  <textarea rows={3} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
+                  <textarea rows={3} name="requirements" disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60" />
                 </div>
 
                 <div className="mt-5">
                   <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Additional Notes</label>
-                  <textarea rows={3} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
+                  <textarea rows={3} name="notes" disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60" />
                 </div>
 
                 <label className="mt-5 flex items-start gap-2 text-sm text-muted-foreground">
-                  <input type="checkbox" required className="mt-1" />
-                  <span>I agree to receive event updates and confirmations from EcoCycle Solutions.</span>
+                  <input type="checkbox" required disabled={isSubmitting} className="mt-1" />
+                  <span>I agree to receive event updates and confirmations from WEEE Centre.</span>
                 </label>
 
-                <button className="mt-6 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90">
-                  Complete registration
+                {submitError && (
+                  <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
+                )}
+
+                <button disabled={isSubmitting} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60">
+                  {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {isSubmitting ? "Submitting..." : "Complete registration"}
                 </button>
               </form>
             )}

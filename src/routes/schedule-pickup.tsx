@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
-import { CheckCircle2, Upload, Plus, Trash2 } from "lucide-react";
+import { CheckCircle2, Upload, Plus, Trash2, Loader2 } from "lucide-react";
+import { sendFormEmail } from "@/lib/send-email";
 import {
   Select,
   SelectContent,
@@ -40,6 +41,8 @@ function SchedulePage() {
   const [devices, setDevices] = useState<DeviceLine[]>([
     { id: 1, device: "", quantity: 1 },
   ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const addDevice = () =>
     setDevices((d) => [...d, { id: Date.now(), device: "", quantity: 1 }]);
@@ -47,6 +50,45 @@ function SchedulePage() {
     setDevices((d) => (d.length > 1 ? d.filter((x) => x.id !== id) : d));
   const updateDevice = (id: number, patch: Partial<DeviceLine>) =>
     setDevices((d) => d.map((x) => (x.id === id ? { ...x, ...patch } : x)));
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const deviceList = devices
+      .filter((d) => d.device)
+      .map((d) => `${d.device} x${d.quantity}`)
+      .join(", ");
+
+    const fields: Record<string, string> = {
+      name: (formData.get("name") as string) ?? "",
+      organization: (formData.get("organization") as string) ?? "",
+      email: (formData.get("email") as string) ?? "",
+      phone: (formData.get("phone") as string) ?? "",
+      location: (formData.get("location") as string) ?? "",
+      preferredDate: (formData.get("preferredDate") as string) ?? "",
+      devices: deviceList || "Not specified",
+      notes: (formData.get("notes") as string) ?? "",
+    };
+
+    try {
+      await sendFormEmail({
+        data: {
+          formType: "schedule-pickup",
+          subject: `New pickup request from ${fields.name || "website visitor"}`,
+          fields,
+        },
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Pickup request failed: ", error);
+      setSubmitError("Something went wrong submitting your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <SiteLayout>
@@ -61,19 +103,19 @@ function SchedulePage() {
               <button onClick={() => { setSubmitted(false); setDevices([{ id: 1, device: "", quantity: 1 }]); }} className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">Book another</button>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="rounded-3xl border border-border bg-card p-8 shadow-soft lg:p-10">
+            <form onSubmit={handleFormSubmit} className="rounded-3xl border border-border bg-card p-8 shadow-soft lg:p-10">
               <div className="grid gap-5 sm:grid-cols-2">
                 {[
-                  ["Full Name", "text", "Jane Doe"],
-                  ["Organization", "text", "Acme Inc."],
-                  ["Email", "email", "jane@acme.com"],
-                  ["Phone", "tel", "+1 555 010 2030"],
-                  ["Pickup Location", "text", "Street, City, ZIP"],
-                  ["Preferred Date", "date", ""],
-                ].map(([label, type, placeholder]) => (
-                  <div key={label}>
+                  ["Full Name", "text", "Jane Doe", "name"],
+                  ["Organization", "text", "Acme Inc.", "organization"],
+                  ["Email", "email", "jane@acme.com", "email"],
+                  ["Phone", "tel", "+1 555 010 2030", "phone"],
+                  ["Pickup Location", "text", "Street, City, ZIP", "location"],
+                  ["Preferred Date", "date", "", "preferredDate"],
+                ].map(([label, type, placeholder, name]) => (
+                  <div key={name}>
                     <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</label>
-                    <input required type={type} placeholder={placeholder} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
+                    <input required type={type} name={name} placeholder={placeholder} disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60" />
                   </div>
                 ))}
               </div>
@@ -140,10 +182,14 @@ function SchedulePage() {
               </div>
               <div className="mt-5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Additional Notes</label>
-                <textarea rows={4} placeholder="Access details, special handling…" className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none" />
+                <textarea rows={4} name="notes" placeholder="Access details, special handling…" disabled={isSubmitting} className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60" />
               </div>
-              <button className="mt-7 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elevated hover:opacity-90">
-                Request Pickup
+              {submitError && (
+                <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
+              )}
+              <button disabled={isSubmitting} className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elevated hover:opacity-90 disabled:opacity-60">
+                {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                {isSubmitting ? "Submitting..." : "Request Pickup"}
               </button>
             </form>
           )}

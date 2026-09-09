@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Phone, Mail, MapPin, Clock, MessageCircle, Loader2 } from "lucide-react";
 import { z } from "zod";
+import { sendFormEmail } from "@/lib/send-email";
 
 const contactSearchSchema = z.object({
   subject: z.string().optional(),
@@ -23,48 +24,34 @@ function ContactPage() {
   const { subject } = Route.useSearch();
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Your verified Entry IDs and Form ID Endpoint
-  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1WqasH8_yhRCaQscop1_rhMsXrGZppk8TcxWJltuNSH8/formResponse";
-  
-  const ENTRY_IDS = {
-    name: "entry.2005620554",
-    email: "entry.1045781291",
-    phone: "entry.1065046570",
-    organization: "entry.1166974658",
-    subject: "entry.839337160",
-    message: "entry.1016647380",
-  };
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError(null);
 
     const formData = new FormData(e.currentTarget);
-    const googleFormData = new URLSearchParams();
-
-    // Map your DOM input values precisely to the Google field keys
-    googleFormData.append(ENTRY_IDS.name, formData.get("name") as string);
-    googleFormData.append(ENTRY_IDS.email, formData.get("email") as string);
-    googleFormData.append(ENTRY_IDS.phone, formData.get("phone") as string);
-    googleFormData.append(ENTRY_IDS.organization, formData.get("organization") as string);
-    googleFormData.append(ENTRY_IDS.subject, formData.get("subject") as string);
-    googleFormData.append(ENTRY_IDS.message, formData.get("message") as string);
+    const name = (formData.get("name") as string) ?? "";
+    const email = (formData.get("email") as string) ?? "";
+    const phone = (formData.get("phone") as string) ?? "";
+    const organization = (formData.get("organization") as string) ?? "";
+    const subjectValue = (formData.get("subject") as string) ?? "";
+    const message = (formData.get("message") as string) ?? "";
 
     try {
-      // mode: "no-cors" forces the browser to silently dispatch the payload safely 
-      await fetch(GOOGLE_FORM_ACTION_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+      await sendFormEmail({
+        data: {
+          formType: "contact",
+          subject: `New contact form message${subjectValue ? `: ${subjectValue}` : ""}`,
+          fields: { name, email, phone, organization, subject: subjectValue, message },
         },
-        body: googleFormData.toString(),
       });
-      
+
       setSubmitted(true);
     } catch (error) {
       console.error("Submission failed: ", error);
+      setSubmitError("Something went wrong sending your message. Please try again or reach us on WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
@@ -160,6 +147,9 @@ function ContactPage() {
                     className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm focus:border-primary focus:outline-none disabled:opacity-60"
                   />
                 </div>
+                {submitError && (
+                  <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
+                )}
                 <button
                   type="submit"
                   disabled={isSubmitting}
